@@ -1,3 +1,4 @@
 .env
 .venv
 .import secrets.py
+.readme.MD

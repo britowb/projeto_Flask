@@ -42,7 +42,7 @@ def create_app(test_config: dict | None = None):
 ```
 
 ---
-
+# PASSO 3 ESTÁ IMPORTANDO DE CONFIG
 ## 3) Atualizar models para importar `db` de `extensions`
 - Objetivo: evitar import circular e desacoplar models.
 - Ação:

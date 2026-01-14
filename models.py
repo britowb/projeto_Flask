@@ -1,12 +1,12 @@
-from config import db
+from extensions import db
 from datetime import datetime
 
 class User(db.Model):
     __tablename__ = 'users' #boa prática para garantir bom entendimento da tabela
 
 #Campos de identificação
-    id = db.Column(db.Integer, primary_key=True) # definimos que id será inteiro e chave primária.
-    email = db.Column(db.String(120), unique=True)#Limite de 80 caracteres
+    id = db.Column(db.Integer, primary_key=True) 
+    email = db.Column(db.String(120), unique=True)
     username = db.Column(db.String(80), unique=True)
     password_hash = db.Column(db.String(128))
 
@@ -20,13 +20,17 @@ class User(db.Model):
     last_login = db.Column(db.DateTime())
 
 #Dados pessoais
-    nome = db.Column(db.String(80))#Nome tem limite de 80 caracteres
+    nome = db.Column(db.String(80))
     nascimento = db.Column(db.Date)
     telefone = db.Column(db.String(20), unique=True)
+
 
 #Relacionamento 
     endereco = db.relationship('Endereco', backref='user', uselist=False)
     postagens = db.relationship('Postagem', backref='autor')
+    comentarios = db.relationship('Comentario', backref='autor')
+    mensagem_enviada = db.relationship('Mensagem', foreign_keys=['Mensagem.remetente_id'], back_populates='remetente')
+    mensagem_recebida = db.relationship('Mensagem', foreign_keys=['Mensagem.destinatario_id'], back_populates='destinatario')
 
 class Endereco(db.Model):
     __tablename__ = 'enderecos'
@@ -47,50 +51,31 @@ class Mensagem(db.Model):
     remetente_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     destinatario_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    remetente = db.relationship('User', foreign_keys=[remetente_id], backref='mensagens_enviadas')
-    destinatario = db.relationship('User', foreign_keys=[destinatario_id], backref='mensagens_recebidas')
+    remetente = db.relationship('User', foreign_keys=[remetente_id], back_populates='mensagem_enviada')
+    destinatario = db.relationship('User', foreign_keys=[destinatario_id], back_populates='mensagem_recebida')
 
+#Uma mensagem precisa ter obrigatoriamente uma origem e um destino. 
+#back_populates='nome do objeto a conectar'
 
 # Postagens
 
 class Postagem(db.Model):
     __tablename__ = 'postagens'
     id = db.Column(db.Integer, primary_key=True)
-    autor_id = db.Column(db.Integer, db.ForeignKey('users.id')) #Uso chave estrangeira para gravar como autor aquele que estiver logado como user.
-    # essa FK é a backref que nomearei no relationship. Relationship primeiro pede a classe e depois a backref que será essa.
+    autor_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
 
+    conteudo = db.Column(db.Text)
 
     created_at = db.Column(db.DateTime(), default=datetime.now)
     is_shared = db.Column(db.Boolean())
-    comentarios = db.relationship('Comentario', backref='postagem') # Aqui eu defino que Uma postagem pode ter multiplos comentarios. E podem ser acessados como "postagens.comentario"
+    reacts = db.Column(db.Integer, default=0)
+    comentarios = db.relationship('Comentario', backref='postagem')
 
 class Comentario(db.Model):
     __tablename__ = 'comentarios'
     id = db.Column(db.Integer, primary_key=True) # O id unico do comentario
-    post_id = db.Column(db.Integer, db.Forei0 gnKey('postagens.id')) #Aqui eu garanto a conexão do comentário com a postagem.
-    autor_id = db.Column(db.Integer, db.ForeignKey('users.id')) # Aqui eu armazenarei o autor do comentario, definido pelo user em questão. 
-    reacts = db.Column(db.Integer, default=0) #Aqui armazenarei a quantidade de likes
+    post_id = db.Column(db.Integer, db.ForeignKey('postagens.id'))
+    autor_id = db.Column(db.Integer, db.ForeignKey('users.id'))  
+    reacts = db.Column(db.Integer, default=0)
 
-    autor = db.relationship('User', backref='comentarios') #Forma pythonica de acessar o objeto User
-    
-    # comentario.postagem - acessar a postagem do comentário
-    # comentario.autor - acessar o autor do comentário
-    # user.comentarios - acessar todos comentários de um usuário
-    # postagem.comentarios - acessar todos comentários de uma postagem
-
-    #O autor_id é necessário porque:
-
-    #É a coluna física no banco de dados
-    #Armazena o ID do usuário que fez o comentário
-    #É a chave estrangeira que mantém a integridade referencial
-    #O relationship é necessário porque:
-
-    #Permite acessar o objeto User diretamente: comentario.autor
-    #Cria a referência reversa: user.comentarios
-    #Facilita o trabalho com os objetos em Python
-
-        # Elaborar em algum momento uma forma de ver quem curtiu o que.
-
-
-
-    
+    autor = db.relationship('User', backref='comentarios') #User.comentarios
