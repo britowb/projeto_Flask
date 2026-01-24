@@ -22,4 +22,3 @@ def create_app(config_name=None):
     # app.register_blueprint(...)
 
     return app
-

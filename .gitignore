@@ -2,3 +2,4 @@
 .venv
 .import secrets.py
 .readme.MD
+./instance/
