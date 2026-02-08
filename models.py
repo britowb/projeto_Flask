@@ -77,5 +77,3 @@ class Comentario(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('postagens.id'))
     autor_id = db.Column(db.Integer, db.ForeignKey('users.id'))  
     reacts = db.Column(db.Integer, default=0)
-
-    autor = db.relationship('User', backref='comentarios') #User.comentarios
