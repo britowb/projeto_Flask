@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, url_for
+from flask import Blueprint, request, redirect, url_for, render_template
 from models import User
 from extensions import db
 from werkzeug.security import generate_password_hash
@@ -32,9 +32,9 @@ def register():
         #Criptografar a senha antes de salvar.
         hashed_password = generate_password_hash(password)
         #Agora vamos criar o objeto novo_user da classe User (nosso model), para salvar.
-        novo_user = User(nome=nome, nascimento=nascimento, username=username, email=email, psw=hashed_password)
+        novo_user = User(nome=nome, nascimento=nascimento, username=username, email=email, password_hash=hashed_password)
         # Agora vamos adicionar esse objeto ao nosso banco de dados e comitar ele.
         db.session.add(novo_user)
         db.session.commit()
-        return redirect(url_for('auth.login')) # redireciona para login após cadastro
-    return "registro"
+        return redirect(url_for('auth.login')) # redireciona para login após cadastro  
+    return render_template('user_form.html')
