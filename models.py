@@ -1,6 +1,21 @@
 from extensions import db
 from datetime import datetime
 
+class Mensagem(db.Model):
+    __tablename__ = 'mensagens'
+    id = db.Column(db.Integer, primary_key=True)
+    conteudo = db.Column(db.Text, nullable=False)
+    detalhes = db.Column(db.DateTime(), nullable=False, default=datetime.now)
+
+    remetente_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    destinatario_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    remetente = db.relationship('User', foreign_keys=[remetente_id], back_populates='mensagem_enviada')
+    destinatario = db.relationship('User', foreign_keys=[destinatario_id], back_populates='mensagem_recebida')
+
+#Uma mensagem precisa ter obrigatoriamente uma origem e um destino. 
+#back_populates='nome do objeto a conectar'
+
 class User(db.Model):
     __tablename__ = 'users' #boa prática para garantir bom entendimento da tabela
 
@@ -29,8 +44,8 @@ class User(db.Model):
     endereco = db.relationship('Endereco', backref='user', uselist=False)
     postagens = db.relationship('Postagem', backref='autor')
     comentarios = db.relationship('Comentario', backref='autor')
-    mensagem_enviada = db.relationship('Mensagem', foreign_keys=['Mensagem.remetente_id'], back_populates='remetente')
-    mensagem_recebida = db.relationship('Mensagem', foreign_keys=['Mensagem.destinatario_id'], back_populates='destinatario')
+    mensagem_enviada = db.relationship('Mensagem', foreign_keys=[Mensagem.remetente_id], back_populates='remetente')
+    mensagem_recebida = db.relationship('Mensagem', foreign_keys=[Mensagem.destinatario_id], back_populates='destinatario')
 
 class Endereco(db.Model):
     __tablename__ = 'enderecos'
@@ -42,20 +57,6 @@ class Endereco(db.Model):
     bairro = db.Column(db.String(80))
 
 
-class Mensagem(db.Model):
-    __tablename__ = 'mensagens'
-    id = db.Column(db.Integer, primary_key=True)
-    conteudo = db.Column(db.Text, nullable=False)
-    detalhes = db.Column(db.DateTime(), nullable=False, default=datetime.now)
-
-    remetente_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    destinatario_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-
-    remetente = db.relationship('User', foreign_keys=[remetente_id], back_populates='mensagem_enviada')
-    destinatario = db.relationship('User', foreign_keys=[destinatario_id], back_populates='mensagem_recebida')
-
-#Uma mensagem precisa ter obrigatoriamente uma origem e um destino. 
-#back_populates='nome do objeto a conectar'
 
 # Postagens
 
