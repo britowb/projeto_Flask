@@ -1,6 +1,7 @@
 from flask import Blueprint, request, redirect, url_for, render_template
 from models import User
 from extensions import db
+import datetime
 from werkzeug.security import generate_password_hash
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth') # Define o blueprint de autenticação. Blueprint('auth' é o nome do blueprint, __name__ é o nome do módulo atual, url_prefix define o prefixo de URL para todas as rotas neste blueprint.)
 
@@ -18,7 +19,10 @@ def register():
     if request.method == 'POST':
         #abaixo nós resgatamos as informações obtidas no formulário, para poder salvar no BD.
         nome = request.form['nome']
-        nascimento = request.form['nascimento']
+        #Recebe a data de nascimento que virá em String YYYY-MM-DD
+        nascimento_str = request.form['nascimento']
+        #Converte em objeto pythonico para que o BD aceite (pois o campo dt de nascimento é db.date)
+        nascimento = datetime.strptime(nascimento_str, '%Y-%m-%d').date
         email = request.form['email']
         # Verificar se o email já existe no banco antes de cadastrar.
 
