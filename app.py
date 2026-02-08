@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from extensions import db, migrate
 from config import config_by_name
+from auth.routes import auth_bp
 
 
 def create_app(config_name=None):
@@ -20,5 +21,5 @@ def create_app(config_name=None):
 
     # Registrar blueprints aqui
     # app.register_blueprint(...)
-
+    app.register_blueprint(auth_bp)
     return app
