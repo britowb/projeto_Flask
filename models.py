@@ -1,5 +1,7 @@
 from extensions import db
 from datetime import datetime
+from app import bcrypt, login_manager
+from flask_login import  UserMixin #Adiciona implementações padrão que o flask espera nas instancias de usuario
 
 class Mensagem(db.Model):
     __tablename__ = 'mensagens'
@@ -16,7 +18,7 @@ class Mensagem(db.Model):
 #Uma mensagem precisa ter obrigatoriamente uma origem e um destino. 
 #back_populates='nome do objeto a conectar'
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users' #boa prática para garantir bom entendimento da tabela
 
 #Campos de identificação
@@ -24,6 +26,17 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True)
     username = db.Column(db.String(80), unique=True)
     password_hash = db.Column(db.String(128))
+
+#Funções auxiliares de classe (métodos)
+    def set_password(self, password):
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password_hash, password)#hash da senha, senha digitada. Retorna True/False
+    
+    @login_manager.user_loader #login_manager é a instancia que criamos em app.py
+    def load_user(user_id): #Função para pegar o ID nos cookies e autenticar nosso usuario a cada requisicao
+        return User.query.get(int(user_id)) #aqui ele pega o ID e pesquisa no banco de dados
 
 #Status da conta
     is_active = db.Column(db.Boolean(), default=True)

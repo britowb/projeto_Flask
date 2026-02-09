@@ -1,8 +1,10 @@
 import os
-from flask import Flask
-from extensions import db, migrate
+from flask import Flask, Blueprint, render_template
+from extensions import db, migrate, login_manager, bcrypt
 from config import config_by_name
 from auth.routes import auth_bp
+    # Importa os modelos para que o migrate os detecte
+from models import User, Endereco, Mensagem, Postagem, Comentario
 
 
 def create_app(config_name=None):
@@ -15,11 +17,16 @@ def create_app(config_name=None):
 
     db.init_app(app)  # Inicializa o SQLAlchemy com a app
     migrate.init_app(app, db)  # Inicializa o Flask-Migrate
+    bcrypt.init_app(app) #inicializa a criptografia
+    login_manager.init_app(app)
 
-    # Importa os modelos para que o migrate os detecte
-    from models import User, Endereco, Mensagem, Postagem, Comentario
-
+    # Define para onde o usuário é redirecionado se não estiver logado
+    login_manager.login_view = "auth.login"
     # Registrar blueprints aqui
-    # app.register_blueprint(...)
+    index_bp = Blueprint('index', __name__)
+    @index_bp.route('/')
+    def index():
+        return render_template('base.html')
+    
     app.register_blueprint(auth_bp)
     return app
