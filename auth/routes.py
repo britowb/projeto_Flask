@@ -3,7 +3,6 @@ from flask_login import login_user, logout_user, login_required, current_user
 from models import User
 from extensions import db
 from datetime import datetime
-from werkzeug.security import generate_password_hash
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth') # Define o blueprint de autenticação. Blueprint('auth' é o nome do blueprint, __name__ é o nome do módulo atual, url_prefix define o prefixo de URL para todas as rotas neste blueprint.)
 
 @auth_bp.route('/login', methods=['GET', 'POST']) #GET é quando o usuário acessa. POST é quando o usuário preenche as infos e submete.

@@ -3,3 +3,4 @@
 .import secrets.py
 .readme.MD
 ./instance/
+./static/

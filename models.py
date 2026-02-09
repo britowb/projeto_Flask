@@ -78,6 +78,7 @@ class Postagem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     autor_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
 
+    imagem = db.Column(db.String(200)) # guarda o caminho da imagem
     conteudo = db.Column(db.Text)
 
     created_at = db.Column(db.DateTime(), default=datetime.now)
