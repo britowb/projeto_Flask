@@ -14,9 +14,9 @@ def postagem():
     
     autor = current_user.id #Só queremos o ID para que a ForeignKey seja válida.
     conteudo = request.form.get('conteudo')
-
-    if 'foto' in request.files:
-        filename = photos.save(request.files['foto'])
+    file = request.files.get('foto')#Só pega se houver.
+    if file and file.filename: #Se existir e tiver um nome, então ta válido.
+        filename = photos.save(request.files.get['foto'])
         #image_url = url_for('static', filename='uploads/'+filename)
         image_url = photos.url(filename) 
 
