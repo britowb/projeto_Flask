@@ -16,9 +16,9 @@ def postagem():
     conteudo = request.form.get('conteudo')
     file = request.files.get('foto')#Só pega se houver.
     if file and file.filename: #Se existir e tiver um nome, então ta válido.
-        filename = photos.save(request.files.get['foto'])
-        #image_url = url_for('static', filename='uploads/'+filename)
-        image_url = photos.url(filename) 
+        filename = photos.save(request.files.get('foto'))
+        image_url = url_for('static', filename='uploads/'+filename) #Forma manual de construir a URL.
+        #image_url = photos.url(filename) #acessa a URL pelo endpoint criado por UploadSet “_uploads”.
 
     else:
         image_url = None

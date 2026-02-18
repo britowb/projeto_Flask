@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}FEED{% endblock %}
+{% block content %}
+{% for post in posts %}
+<div class="Postagem">
+    <p>{{ post.conteudo}}</p>
+    {% if post.imagem %}
+    <img src="{{ post.imagem }}" alt="imagem do post" height="300" width="450">
+    {% endif %}<br>
+
+    <small>{{ post.created_at.strftime("%d/%m/%Y - %H:%M") }}</small>
+
+    <div class="Comentarios">
+
+        {% for coments in post.comentarios %}
+        <div class="Comentario">
+            <small>{{ coments.autor.nome }}</small>
+            <p>{{ coments.conteudo }}</p>
+            <small>{{ coments.created_at.strftime("%d/%m/%Y - %H:%M") }}</small>
+        </div>
+        {% endfor %}<br>
+
+    <form title="Comentar" method="post" action="/Comentar">
+        <label for="comentario">Comentar</label>
+        <input type="text" id="comentario" name="comentario" title="Deixe uma opinião" required>
+        <input type="hidden" name="id" value="{{post.id}}">
+        <button type="submit">Enviar</button>
+    </form>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -5,6 +5,8 @@ from extensions import db, migrate, login_manager, bcrypt, photos
 from config import config_by_name
 from auth.routes import auth_bp
 from posts.routes import post_bp
+from feed.routes import feed_bp
+from coments.routes import comentar_bp
     # Importa os modelos para que o migrate os detecte
 from models import User, Endereco, Mensagem, Postagem, Comentario
 
@@ -31,7 +33,9 @@ def create_app(config_name=None):
     def index():
         return render_template('base.html')
     
+    app.register_blueprint(feed_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(post_bp)
     app.register_blueprint(index_bp)
+    app.register_blueprint(comentar_bp)
     return app

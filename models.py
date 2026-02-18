@@ -82,7 +82,7 @@ class Postagem(db.Model):
     conteudo = db.Column(db.Text)
 
     created_at = db.Column(db.DateTime(), default=datetime.now)
-    is_shared = db.Column(db.Boolean())
+    is_shared = db.Column(db.Boolean(), default=False)
     reacts = db.Column(db.Integer, default=0)
     comentarios = db.relationship('Comentario', backref='postagem')
 
@@ -90,5 +90,7 @@ class Comentario(db.Model):
     __tablename__ = 'comentarios'
     id = db.Column(db.Integer, primary_key=True) # O id unico do comentario
     post_id = db.Column(db.Integer, db.ForeignKey('postagens.id'))
-    autor_id = db.Column(db.Integer, db.ForeignKey('users.id'))  
+    autor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    conteudo = db.Column(db.Text)
+    created_at = db.Column(db.DateTime(), default=datetime.now)  
     reacts = db.Column(db.Integer, default=0)
