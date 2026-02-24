@@ -4,6 +4,21 @@
         <meta charset="UTF-8">
         <title>{% block title %}APP{% endblock %}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <nav class="navbar"> 
+            <ul> 
+                {% if autenticado %}
+                <li><a href="{{ url_for('feed.feed') }}">Feed</a>
+                </li> <li><a href="{{ url_for('inbox.inbox') }}">Inbox</a></li>
+                <li><a href="{{ url_for('send.send') }}">Enviar Mensagem</a></li>
+                <li><a href="{{ url_for('post.postagem') }}">Postar</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                {% else %}
+                <li><a href="{{ url_for('feed.feed') }}">Feed</a>
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('auth.register') }}">Cadastro</a></li>
+                {% endif %}
+            </ul>
+        </nav>
     </head>
     <body>
         <header>

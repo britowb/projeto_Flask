@@ -14,6 +14,52 @@ header, footer {
     padding: 15px;
 }
 
+/* Navbar */
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #007BFF;
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+    z-index: 1000;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* permite quebrar linha em telas pequenas */
+}
+
+.navbar li {
+    margin: 0;
+}
+
+.navbar a {
+    display: block;
+    padding: 8px 16px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-right: 2px solid #fff;
+    transition: background-color 0.3s;
+}
+
+.navbar li:last-child a {
+    border-right: none;
+}
+
+.navbar a:hover {
+    background-color: #0056b3;
+}
+
+.navbar a:active {
+    background-color: #003f7f;
+}
+
 /* Área principal */
 main {
     max-width: 900px;
@@ -108,4 +154,39 @@ form button {
 
 form button:hover {
     background: #0056b3;
+}
+
+/* 🔹 Responsividade */
+@media (max-width: 768px) {
+    .navbar {
+        justify-content: flex-start;
+        padding: 8px;
+    }
+
+    .navbar ul {
+        flex-direction: column; /* vira lista vertical */
+        width: 100%;
+    }
+
+    .navbar a {
+        border-right: none; /* remove separador */
+        border-bottom: 1px solid #fff; /* separador vertical */
+        text-align: center;
+    }
+
+    .navbar li:last-child a {
+        border-bottom: none;
+    }
+
+    main {
+        padding: 5px;
+    }
+
+    .Postagem {
+        padding: 10px;
+    }
+
+    form {
+        padding: 15px;
+    }
 }

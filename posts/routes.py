@@ -10,7 +10,7 @@ post_bp = Blueprint('post', __name__, url_prefix='/posts')
 @login_required
 def postagem():
     if request.method == 'GET':
-        return render_template('post.html')
+        return render_template('post.html', autenticado=current_user)
     
     autor = current_user.id #Só queremos o ID para que a ForeignKey seja válida.
     conteudo = request.form.get('conteudo')
@@ -27,6 +27,6 @@ def postagem():
     db.session.add(novo_post)
     db.session.commit()
     print('Novo post')
-    return redirect(url_for('Index.index'))
+    return redirect(url_for('Index.index', autenticado=current_user))
 
     

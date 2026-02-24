@@ -15,4 +15,4 @@ def comentar():
         db.session.add(novo_comentario)
         db.session.commit()
         print(f'Comentário do user_id: {user}')
-        return redirect(url_for('feed.feed'))
+        return redirect(url_for('feed.feed', autenticado=current_user))

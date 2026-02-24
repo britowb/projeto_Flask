@@ -1,5 +1,6 @@
 import os
 from flask import Flask, Blueprint, render_template
+from flask_login import current_user
 from flask_uploads import configure_uploads
 from extensions import db, migrate, login_manager, bcrypt, photos
 from config import config_by_name
@@ -30,9 +31,10 @@ def create_app(config_name=None):
 
     # Registrar blueprints aqui
     index_bp = Blueprint('Index', __name__)
+    autenticado = current_user
     @index_bp.route('/')
     def index():
-        return render_template('base.html')
+        return render_template('base.html', autenticado=autenticado)
     
     app.register_blueprint(feed_bp)
     app.register_blueprint(auth_bp)

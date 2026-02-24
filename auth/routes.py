@@ -14,7 +14,7 @@ def login():
         if user and user.check_password(password):
             login_user(user)
             print('Login realizado com sucesso')
-            return render_template('base.html')
+            return render_template('base.html', autenticado=current_user)
         else:
             print('Login ou senha incorretos')
     return render_template('login.html')
