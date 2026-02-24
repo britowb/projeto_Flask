@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}INBOX{% endblock %}
+{% block content %}
+<h2>{{quem}}</h2>   
+<section class="inbox">
+{% for c in conversa %}
+    {% if c.destinatario_id == logado %}
+        <article class="recebido"><br>
+            <p>2</p>
+    {% else %}
+        <article class="enviado"><br>
+            <p>1</p>    
+    {% endif %}
+    <div class="mensagem">{{c.conteudo}}<br><small>{{c.detalhes.strftime("%d/%m/%Y - %H:%M")}}</small></div>
+    </article><br>
+{% endfor %}
+</section>  
+{% endblock %}

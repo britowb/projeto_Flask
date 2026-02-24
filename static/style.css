@@ -1,0 +1,111 @@
+/* Reset básico */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Cabeçalho e rodapé */
+header, footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+}
+
+/* Área principal */
+main {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+/* Widget de postagem */
+.Postagem {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.Postagem img {
+    max-width: 100%;
+    border-radius: 6px;
+}
+
+/* Comentários */
+.Comentario {
+    background: #f9f9f9;
+    border-left: 4px solid #007BFF;
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+/* Inbox e conversas */
+.inbox {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.conversa-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.conversa-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.conversa-link:hover {
+    color: #007BFF;
+}
+
+/* Mensagens */
+.recebido {
+    background: #e6f7ff;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 8px 0;
+}
+
+.enviado {
+    background: #d9f7be;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 8px 0;
+}
+
+/* Formulários */
+form {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+form input, form textarea, form button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background: #0056b3;
+}

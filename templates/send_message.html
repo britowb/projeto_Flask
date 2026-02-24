@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}ENVIAR MENSAGEM{% endblock %}
+{% block content %}
+<div class="dialogo">
+    <form method="POST">
+        <label for="destinatario">Destinatario:</label>
+        <input list="usuarios" id="destinatario" name="destinatario">
+        <datalist id="usuarios">
+            {% for user in users %}
+            <option value="{{user.id}}">{{user.nome}}</option>
+            {% endfor %}
+        </datalist><br>
+        <textarea id="conteudo" name="conteudo" rows="3" cols="33" required></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+</div>
+{% endblock %}

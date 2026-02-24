@@ -7,6 +7,7 @@ from auth.routes import auth_bp
 from posts.routes import post_bp
 from feed.routes import feed_bp
 from coments.routes import comentar_bp
+from messages.routes import send_bp, inbox_bp, conversa_bp
     # Importa os modelos para que o migrate os detecte
 from models import User, Endereco, Mensagem, Postagem, Comentario
 
@@ -38,4 +39,7 @@ def create_app(config_name=None):
     app.register_blueprint(post_bp)
     app.register_blueprint(index_bp)
     app.register_blueprint(comentar_bp)
+    app.register_blueprint(inbox_bp)
+    app.register_blueprint(send_bp)
+    app.register_blueprint(conversa_bp)
     return app

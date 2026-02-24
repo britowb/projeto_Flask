@@ -1,7 +1,19 @@
 from extensions import db
 from datetime import datetime
-from app import bcrypt, login_manager
+from extensions import bcrypt, login_manager
 from flask_login import  UserMixin #Adiciona implementações padrão que o flask espera nas instancias de usuario
+
+#class Inbox(db.model):
+#    __tablename__ = 'inbox'
+#    ### Vamos catalogar as mensagens através do ID de cada objeto envolvido ####
+#    id = db.Column(db.Integer, primary_key=True) 
+#    user_id = db.Column(db.Integer, db.ForeingKey('users.id'), nullable=False) #Essa chave estrangeira garante que o usuário existe através do ID único dele
+#    mensagem_id = db.Column(db.Integer, db.ForeingKey('mensagens.id'), nullable=False) #Essa garante que a mensagem existe (através do ID único dela)
+#
+#    __table_args__ = (
+#        db.Index("idx_user_msg", "user_id", "mensagem_id"), #Index composto. Fará com que o fluxo de pesquisa se torne mais rápido. Id do usuário leva a uma matriz de mensagens só dele.
+#        db.UniqueConstraint('user_id','mensagem_id',name='uq_user_mensagem') #Impede duplicações de mensagem
+#    )
 
 class Mensagem(db.Model):
     __tablename__ = 'mensagens'
@@ -9,16 +21,21 @@ class Mensagem(db.Model):
     conteudo = db.Column(db.Text, nullable=False)
     detalhes = db.Column(db.DateTime(), nullable=False, default=datetime.now)
 
+    ### Aqui eu armazeno o ID de quem enviou e quem recebeu a mensagem.
+    ## ForeignKey está garantindo que esse user realmente existe.
     remetente_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     destinatario_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
 
+    ### Aqui eu instancio a relação
+    #db.relationship('User' --- Aqui eu digo que remetente tem relacionamento com User.
     remetente = db.relationship('User', foreign_keys=[remetente_id], back_populates='mensagem_enviada')
     destinatario = db.relationship('User', foreign_keys=[destinatario_id], back_populates='mensagem_recebida')
 
 #Uma mensagem precisa ter obrigatoriamente uma origem e um destino. 
 #back_populates='nome do objeto a conectar'
 
-class User(db.Model, UserMixin):
+class User(db.Model, UserMixin): 
     __tablename__ = 'users' #boa prática para garantir bom entendimento da tabela
 
 #Campos de identificação

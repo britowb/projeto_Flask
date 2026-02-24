@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}INBOX{% endblock %}
+{% block content %}
+<section class="inbox">
+    <h2>{{quem}}</h2>
+    {% for u in usuarios %}
+    <section class="conversa{{u.id}}">
+        <a href="{{ url_for('conversa.conversa', id=u.id)}}" class='conversa'>
+            <h4>{{u.nome}}</h4>
+        </a>
+    </section>
+    
+    {% endfor %}
+</section>
+{% endblock%}
